@@ -94,11 +94,17 @@ public class Triqui {
             else
                 System.out.println("Ingresa el movimiento del jugador 2");
 
-            
-            System.out.print("y:");
-            y = lector.nextInt();
-            System.out.print("x:");
-            x = lector.nextInt();
+            boolean casillaOcupada = false;
+            do{
+                System.out.print("y:");
+                y = lector.nextInt();
+                System.out.print("x:");
+                x = lector.nextInt();
+                casillaOcupada = tablero[y][x] == 'X' || tablero[y][x] == 'O';
+                if(casillaOcupada == true){
+                    System.out.println("La casilla ya está ocupada, ingresa tu posición de nuevo");
+                }
+            }while(casillaOcupada == true);
 
             if(esTurnoDelJugador1 == true)
                 tablero[y][x] = 'X';
@@ -106,11 +112,7 @@ public class Triqui {
                 tablero[y][x] = 'O';
             cantidadMovimientos += 1;
             imprimirTablero();
-            esTriqui = esTriquiPorDiagonalPrincipal();
-            if(esTriqui == false)
-                esTriqui = esTriquiPorDiagonalInvertida();
-            if(esTriqui == false)
-                esTriqui = esTriquiPorUnaColumna();
+            esTriqui = esTriquiPorDiagonalPrincipal() || esTriquiPorDiagonalInvertida() || esTriquiPorUnaColumna() || esTriquiPorUnaFila();
             esTurnoDelJugador1 = !esTurnoDelJugador1;
         }while(cantidadMovimientos < 9 && esTriqui == false);
         
@@ -122,8 +124,6 @@ public class Triqui {
         }
         else
             System.out.println("Empate");
-        
-        
     }
     
     public static void main(String[] args) {
